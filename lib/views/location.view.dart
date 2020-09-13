@@ -65,7 +65,7 @@ class _LocationViewState extends State<LocationView> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(40),
+                  padding: EdgeInsets.fromLTRB(40, 40, 40, 20),
                   child: FlatButton(
                       onPressed: () {},
                       child: Container(
@@ -75,10 +75,34 @@ class _LocationViewState extends State<LocationView> {
                           color: Theme.of(context).accentColor,
                           borderRadius: BorderRadius.circular(21),
                         ),
-                        child: Text(
-                          'Continuar',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.black, fontSize: 24),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 7),
+                          child: Text(
+                            'Continuar',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.black, fontSize: 24),
+                          ),
+                        ),
+                      )),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(40, 0, 40, 40),
+                  child: FlatButton(
+                      onPressed: () {},
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).accentColor,
+                          borderRadius: BorderRadius.circular(21),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 7),
+                          child: Text(
+                            'Tentar Novamente',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.black, fontSize: 24),
+                          ),
                         ),
                       )),
                 )
