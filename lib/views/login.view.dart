@@ -76,7 +76,7 @@ class SkipLoginButton extends StatelessWidget {
           padding: EdgeInsets.all(8.0),
           splashColor: Colors.blueAccent,
           onPressed: () {
-            /*...*/
+            Navigator.pushReplacementNamed(context, '/home');
           },
           child: Padding(
             padding: EdgeInsets.only(top: 5, bottom: 5),
@@ -229,27 +229,27 @@ class InputEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-    decoration: const InputDecoration(
-      labelStyle: TextStyle(
-        color: Colors.white
-      ),
-      enabledBorder: const OutlineInputBorder(
-        // width: 0.0 produces a thin "hairline" border
-        borderSide: const BorderSide(color: Colors.white, width: 1),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 1),
+      decoration: const InputDecoration(
+        labelStyle: TextStyle(
+          color: Colors.white
+        ),
+        enabledBorder: const OutlineInputBorder(
+          // width: 0.0 produces a thin "hairline" border
+          borderSide: const BorderSide(color: Colors.white, width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.white, width: 1),
 
+        ),
+        border: OutlineInputBorder(),
+        labelText: 'Digite seu e-mail',
       ),
-      border: OutlineInputBorder(),
-      labelText: 'Digite seu e-mail',
-    ),
-    validator: (value) {
-      if (value.isEmpty) {
-        return 'Por favor, digite seu e-mail';
-      }
-      return null;
-    },
-                );
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Por favor, digite seu e-mail';
+        }
+        return null;
+      },
+    );
   }
 }
