@@ -38,6 +38,8 @@ flutter:
     - assets/big/robot.png
     - assets/original/robot.png
     - assets/small/robot.png
+    - assets/original/mpsp-logo.png
+    - assets/small/google_icon32x32.png
   fonts:
     - family: Ubuntu
       fonts:
