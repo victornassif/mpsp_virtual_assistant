@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mpsp_virtual_assistant/themes/style.dart';
 import 'package:mpsp_virtual_assistant/views/assistant.view.dart';
+import 'package:mpsp_virtual_assistant/views/login.view.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +14,11 @@ class MyApp extends StatelessWidget {
       title: 'MPSP',
       debugShowCheckedModeBanner: false,
       theme: theme(),
-      home: InitialAssistant(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LoginView(),
+        '/home': (context) => InitialAssistant(),
+      },
     );
   }
 }
