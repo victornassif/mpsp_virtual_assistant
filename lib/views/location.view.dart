@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
 class LocationView extends StatefulWidget {
   @override
@@ -6,6 +8,33 @@ class LocationView extends StatefulWidget {
 }
 
 class _LocationViewState extends State<LocationView> {
+  Position _currentPosition;
+  String _currentAdress;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    _getAddressFromLatLng();
+  }
+
+  _getAddressFromLatLng() async {
+    try {
+      this._currentPosition =
+          await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      List<Placemark> p = await placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+
+      Placemark place = p[0];
+
+      _currentAdress = "${place.locality}, ${place.postalCode}, ${place.country}";
+
+      setState(() => {});
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,21 +82,17 @@ class _LocationViewState extends State<LocationView> {
             ),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-                  child: Text(
-                    'Segundo sua localização, você está em {LOCALIZAÇÃO}, certo?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
-                  ),
+                _currentAdress != null ? gps(_currentAdress) : Center(
+                  child: Padding(
+                      padding: EdgeInsets.only(top: 15),
+                      child: CircularProgressIndicator()),
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(40, 40, 40, 20),
                   child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, '/options');
+                      },
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.06,
                         width: MediaQuery.of(context).size.width,
@@ -85,31 +110,53 @@ class _LocationViewState extends State<LocationView> {
                         ),
                       )),
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(40, 0, 40, 40),
-                  child: FlatButton(
-                      onPressed: () {},
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.06,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).accentColor,
-                          borderRadius: BorderRadius.circular(21),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 7),
-                          child: Text(
-                            'Tentar Novamente',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.black, fontSize: 24),
-                          ),
-                        ),
-                      )),
-                )
+                btnTentarNovamente(context)
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Padding btnTentarNovamente(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(40, 0, 40, 40),
+      child: FlatButton(
+          onPressed: () {
+            _getAddressFromLatLng();
+          },
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.06,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Theme.of(context).accentColor,
+              borderRadius: BorderRadius.circular(21),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 7),
+              child: Text(
+                'Tentar Novamente',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black, fontSize: 24),
+              ),
+            ),
+          )),
+    );
+  }
+
+  Widget gps(address) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+      child: Text(
+        'Segundo sua localização, você está em ' +
+            address +
+            ', certo?',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+        ),
       ),
     );
   }
