@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mpsp_virtual_assistant/themes/style.dart';
 import 'package:mpsp_virtual_assistant/views/assistant.view.dart';
 import 'package:mpsp_virtual_assistant/views/login.view.dart';
+import 'package:mpsp_virtual_assistant/views/options.view.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => LoginView(),
         '/home': (context) => InitialAssistant(),
+        '/options': (context) => OptionsView(),
       },
     );
   }
