@@ -27,7 +27,7 @@ class PromotoriaService {
     }
 
     List<PromotoriaModel> filteredList = list.where(
-      (PromotoriaModel promotoria) => promotoria.areaAtuacaoID == idAreaAtuacao);
+      (PromotoriaModel promotoria) => promotoria.areaAtuacaoID == idAreaAtuacao).toList();
 
     return filteredList;
   }

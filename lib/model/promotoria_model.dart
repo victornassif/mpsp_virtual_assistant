@@ -29,11 +29,11 @@ class PromotoriaModel {
       id: (json["id"] is int) ? json["id"] : int.parse(json["id"]),
       nome: json["nome"],
       rua: json["rua"],
-      numero: int.parse(json["numero"]),
+      numero: (json["numero"] is int) ? json["numero"] : int.parse(json["numero"]),
       cidade: json["cidade"],
       bairro: json["bairro"],
-      faixaAtendimentoID: int.parse(json["faixaAtendimentoID"]),
-      areaAtuacaoID: int.parse(json["areaAtuacaoID"]));
+      faixaAtendimentoID: (json["faixaAtendimentoID"] is int) ? json["faixaAtendimentoID"] : int.parse(json["faixaAtendimentoID"]),
+      areaAtuacaoID: (json["areaAtuacaoID"] is int) ? json["areaAtuacaoID"] : int.parse(json["areaAtuacaoID"]));
 
   Map<String, dynamic> toMap() => {
         "id": id,

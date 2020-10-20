@@ -41,17 +41,17 @@ class _FalarPjState extends State<FalarPj> {
           SizedBox(
             child: Padding(
               padding: EdgeInsets.all(10),
-              child: ListView(
-                // This next line does the trick.
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  optionButton(text: 'São Paulo', onPressed: () {}),
-                  optionButton(text: 'Rio de Janeiro', onPressed: () {}),
-                  optionButton(text: 'Espírito Santo', onPressed: () {}),
-                  optionButton(text: 'Acre', onPressed: () {}),
-                  optionButton(text: 'Alagoas', onPressed: () {}),
-                ],
-              ),
+              child: Observer(
+                builder: (context) =>
+                  ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: store.areasAtuacao.length,
+                    itemBuilder: (context, index) => optionButton(
+                      text: store.areasAtuacao[index].nome, 
+                      onPressed: () {}
+                    ),
+                  ),
+                )
             ),
             height: MediaQuery.of(context).size.height * 0.112,
           )

@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 class ApiConfig {
 
-  String _url = "https://uapi-mpsp.azurewebsites.net:44362/api/";
+  String _url = "https://uapi-mpsp.azurewebsites.net/api/";
   int timeout = 5000;
 
   ApiConfig( {this.timeout = 5000} );
@@ -18,7 +18,7 @@ class ApiConfig {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (RequestOptions request) async {
-          request.headers["token"] = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6WyJnZ29tZXMiLCJnZ29tZXMiXSwianRpIjoiOTNmNTk3OWUzYTVkNDBjMmJiMTQxNzc0NWY4Yjg0OTgiLCJuYmYiOjE2MDMxNTQ2MTUsImV4cCI6MTYwMzE1ODIxNSwiaWF0IjoxNjAzMTU0NjE1LCJpc3MiOiJuTGF1ZG8iLCJhdWQiOiJuTGF1ZG8ifQ.c7ZcnpPpS4PfDH1u40eetdJ7yy0WxCudfh6HsTSFySuGtqA9BO2-ps0sBzteuxl4QbmXTe6hFPBPjbK9cwqS5AFTD6CQ2-TdrIoi4qCF8zZ_ZAipoXoWeWJjCGzBmgdvUOFrfGONDQ0ihHtJSW5OctMK9Ub2sgWf-gGNrpPdpsgXiseF_9A6WjHKGvlKEEIc9ovnnWWl8D4vq2VfmECKZ8DmjNuwjwq4Sbc9OSUt9Yx-qjyKtpDycH0oWoEFONS75Lu6ONlFrtSozPLqOLac2GcxD8zSG9Al8cDqevj0MREh3JuJjMcuU1hsinJ_brzxeBIxw06HMX8zH50vURKNGg";
+          request.headers["Authorization"] = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6WyJnZ29tZXMiLCJnZ29tZXMiXSwianRpIjoiNWQ5NWJkNjY0ZjM5NDA5MmI4OWExZWU5YTBlOTg1MzUiLCJuYmYiOjE2MDMxNjM4MzEsImV4cCI6MTYwMzE2NzQzMSwiaWF0IjoxNjAzMTYzODMxLCJpc3MiOiJuTGF1ZG8iLCJhdWQiOiJuTGF1ZG8ifQ.jFNs6e66pSBtDlve25wyXw2wOcqY_r6-m5PGwq5LnfGhXnYRv2PrWIdIYkftYcv-6bi2yHSrOHSN0_Yom6L0qjCElBO_ErftZxmgcMdTjPWelaG1ob6OOOpEl3YsczZnReUKAKeGwrAsoxpPTRZQ7_z7WsurO-UWpYB-3H2TsVj0oZ9aN1mLW2tC1AiY5VcqCpEM5jfvPP5I710MPINcTj7qv31K-Pzbp9EV7Z8dqntC3qJP_5QTsVigQOJNMwyb3GeCib3AO_ed9VUKb6Qvr_-KMgw0cvBsA1USlBzHquq2blzTCNFCCDOhCiVZaxGbWxosWMqs7M6Z0vg2YL54nw";
           return request;
         },
         onResponse: (Response response) async {
