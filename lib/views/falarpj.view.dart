@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mpsp_virtual_assistant/intents/falar_pj_intents.dart';
 import 'package:mpsp_virtual_assistant/store/falar_pj_store.dart';
 
 class FalarPj extends StatefulWidget {
@@ -10,10 +13,14 @@ class FalarPj extends StatefulWidget {
 class _FalarPjState extends State<FalarPj> {
   final FalarPjStore store = new FalarPjStore();
 
+  var listScrollController = new ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    this.store.addMessage(
-        msg: 'Olá! Por favor, nos informe sua área de atuação', owner: 'bot');
+
+    Timer( Duration(milliseconds: 1), () =>    
+        this.listScrollController.jumpTo(-this.listScrollController.position.maxScrollExtent));
+
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -24,34 +31,46 @@ class _FalarPjState extends State<FalarPj> {
               Expanded(
                 child: Observer(
                   builder: (context) => ListView.builder(
-                    itemCount: this.store.messages.length,
+                    itemCount: this.store.reversedMessages.length,
+                    controller: listScrollController,
+                    reverse: true,
                     itemBuilder: (_, index) =>
-                        this.store.messages[index].owner == 'user'
+                        this.store.reversedMessages[index].owner == 'user'
                             ? messageUser(
                                 context: context,
-                                msg: this.store.messages[index].msg)
+                                msg: store.reversedMessages[index].msg)
                             : messageBot(
                                 context: context,
-                                msg: this.store.messages[index].msg),
+                                msg: store.reversedMessages[index].msg),
                   ),
                 ),
               ),
             ]),
           ),
           SizedBox(
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Observer(
-                builder: (context) =>
-                  ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: store.areasAtuacao.length,
-                    itemBuilder: (context, index) => optionButton(
-                      text: store.areasAtuacao[index].nome, 
-                      onPressed: () {}
-                    ),
-                  ),
-                )
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFF022c43),
+              ),
+              width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Observer(
+                    builder: (context) {
+                      switch (store.intent) {
+                        case FalarPjIntent.AREA_ATUACAO:
+                          return selectAreaAtuacao();
+                        case FalarPjIntent.TIPO_CONTATO:
+                          return selectTipoContato();
+                        case FalarPjIntent.INFO_DESEJADA:
+                          return selectInformacaoDesejada();
+                        case FalarPjIntent.VOLTAR_INICIO:
+                          return selectVoltarInicio();
+                        default:
+                          return SizedBox(height: 16);
+                      }
+                    },
+                  )),
             ),
             height: MediaQuery.of(context).size.height * 0.112,
           )
@@ -60,11 +79,82 @@ class _FalarPjState extends State<FalarPj> {
     );
   }
 
+  ListView selectAreaAtuacao() {
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: store.areasAtuacao.length,
+      itemBuilder: (context, index) => optionButton(
+          text: store.areasAtuacao[index].nome,
+          onPressed: () {
+            store.setAreaAtuacao(store.areasAtuacao[index]);
+            store.addMessage(msg: store.areaAtuacao.nome, owner: 'user');
+            store.loadIntentTipoContato();
+          }),
+    );
+  }
+
+  ListView selectTipoContato() {
+    return ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: store.contatos.length,
+        itemBuilder: (context, index) => optionButton(
+            text: store.contatos[index].nome,
+            onPressed: () {
+              store.addMessage(msg: store.contatos[index].nome, owner: 'user');
+              store.setContato(store.contatos[index]);
+              store.loadIntentInfoDesejada();
+            }));
+  }
+
+  ListView selectInformacaoDesejada() {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: <Widget>[
+        optionButton(
+            text: 'Sim',
+            onPressed: () {
+              store.addMessage(msg: 'Sim', owner: 'user');
+              store.setInfoDesejada(true);
+              store.loadIntentPesquisaSatisfacao();
+            }),
+        optionButton(
+            text: 'Não',
+            onPressed: () {
+              store.addMessage(msg: 'Não', owner: 'user');
+              store.setInfoDesejada(false);
+              store.loadItentVoltarInicio();
+            })
+      ],
+    );
+  }
+
+  ListView selectVoltarInicio() {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: <Widget>[
+        optionButton(
+            text: 'Sim',
+            onPressed: () {
+              store.addMessage(msg: 'Sim', owner: 'user');
+              store.setVoltarInicio(true);
+              store.init();
+            }),
+        optionButton(
+            text: 'Não',
+            onPressed: () {
+              store.addMessage(msg: 'Não', owner: 'user');
+              store.setVoltarInicio(false);
+              store.loadIntentPesquisaSatisfacao();
+            })
+      ],
+    );
+  }
+
   Widget optionButton({String text, Function onPressed}) {
     return Container(
       margin: EdgeInsets.only(left: 2),
-          child: RaisedButton(
-        child: Text(text), 
+      child: RaisedButton(
+        child: Text(text),
         onPressed: onPressed,
       ),
     );

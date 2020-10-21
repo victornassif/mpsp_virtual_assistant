@@ -9,6 +9,66 @@ part of 'falar_pj_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$FalarPjStore on _FalarPjStore, Store {
+  final _$areaAtuacaoAtom = Atom(name: '_FalarPjStore.areaAtuacao');
+
+  @override
+  AreaAtuacaoModel get areaAtuacao {
+    _$areaAtuacaoAtom.reportRead();
+    return super.areaAtuacao;
+  }
+
+  @override
+  set areaAtuacao(AreaAtuacaoModel value) {
+    _$areaAtuacaoAtom.reportWrite(value, super.areaAtuacao, () {
+      super.areaAtuacao = value;
+    });
+  }
+
+  final _$contatoAtom = Atom(name: '_FalarPjStore.contato');
+
+  @override
+  ContatoModel get contato {
+    _$contatoAtom.reportRead();
+    return super.contato;
+  }
+
+  @override
+  set contato(ContatoModel value) {
+    _$contatoAtom.reportWrite(value, super.contato, () {
+      super.contato = value;
+    });
+  }
+
+  final _$infoDesejadaAtom = Atom(name: '_FalarPjStore.infoDesejada');
+
+  @override
+  bool get infoDesejada {
+    _$infoDesejadaAtom.reportRead();
+    return super.infoDesejada;
+  }
+
+  @override
+  set infoDesejada(bool value) {
+    _$infoDesejadaAtom.reportWrite(value, super.infoDesejada, () {
+      super.infoDesejada = value;
+    });
+  }
+
+  final _$voltarInicioAtom = Atom(name: '_FalarPjStore.voltarInicio');
+
+  @override
+  bool get voltarInicio {
+    _$voltarInicioAtom.reportRead();
+    return super.voltarInicio;
+  }
+
+  @override
+  set voltarInicio(bool value) {
+    _$voltarInicioAtom.reportWrite(value, super.voltarInicio, () {
+      super.voltarInicio = value;
+    });
+  }
+
   final _$listaPromotoriaAtom = Atom(name: '_FalarPjStore.listaPromotoria');
 
   @override
@@ -21,6 +81,21 @@ mixin _$FalarPjStore on _FalarPjStore, Store {
   set listaPromotoria(ObservableList<PromotoriaModel> value) {
     _$listaPromotoriaAtom.reportWrite(value, super.listaPromotoria, () {
       super.listaPromotoria = value;
+    });
+  }
+
+  final _$contatosAtom = Atom(name: '_FalarPjStore.contatos');
+
+  @override
+  ObservableList<ContatoModel> get contatos {
+    _$contatosAtom.reportRead();
+    return super.contatos;
+  }
+
+  @override
+  set contatos(ObservableList<ContatoModel> value) {
+    _$contatosAtom.reportWrite(value, super.contatos, () {
+      super.contatos = value;
     });
   }
 
@@ -54,6 +129,21 @@ mixin _$FalarPjStore on _FalarPjStore, Store {
     });
   }
 
+  final _$intentAtom = Atom(name: '_FalarPjStore.intent');
+
+  @override
+  FalarPjIntent get intent {
+    _$intentAtom.reportRead();
+    return super.intent;
+  }
+
+  @override
+  set intent(FalarPjIntent value) {
+    _$intentAtom.reportWrite(value, super.intent, () {
+      super.intent = value;
+    });
+  }
+
   final _$setPromotoriasAsyncAction =
       AsyncAction('_FalarPjStore.setPromotorias');
 
@@ -61,6 +151,13 @@ mixin _$FalarPjStore on _FalarPjStore, Store {
   Future setPromotorias(dynamic idAreaAtuacao) {
     return _$setPromotoriasAsyncAction
         .run(() => super.setPromotorias(idAreaAtuacao));
+  }
+
+  final _$setContatosAsyncAction = AsyncAction('_FalarPjStore.setContatos');
+
+  @override
+  Future setContatos() {
+    return _$setContatosAsyncAction.run(() => super.setContatos());
   }
 
   final _$getAreasAtuacaoAsyncAction =
@@ -71,8 +168,70 @@ mixin _$FalarPjStore on _FalarPjStore, Store {
     return _$getAreasAtuacaoAsyncAction.run(() => super.getAreasAtuacao());
   }
 
+  final _$getContatosAsyncAction = AsyncAction('_FalarPjStore.getContatos');
+
+  @override
+  Future getContatos() {
+    return _$getContatosAsyncAction.run(() => super.getContatos());
+  }
+
   final _$_FalarPjStoreActionController =
       ActionController(name: '_FalarPjStore');
+
+  @override
+  dynamic setIntent(FalarPjIntent intent) {
+    final _$actionInfo = _$_FalarPjStoreActionController.startAction(
+        name: '_FalarPjStore.setIntent');
+    try {
+      return super.setIntent(intent);
+    } finally {
+      _$_FalarPjStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setAreaAtuacao(AreaAtuacaoModel areaAtuacao) {
+    final _$actionInfo = _$_FalarPjStoreActionController.startAction(
+        name: '_FalarPjStore.setAreaAtuacao');
+    try {
+      return super.setAreaAtuacao(areaAtuacao);
+    } finally {
+      _$_FalarPjStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setContato(ContatoModel contato) {
+    final _$actionInfo = _$_FalarPjStoreActionController.startAction(
+        name: '_FalarPjStore.setContato');
+    try {
+      return super.setContato(contato);
+    } finally {
+      _$_FalarPjStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setInfoDesejada(bool resp) {
+    final _$actionInfo = _$_FalarPjStoreActionController.startAction(
+        name: '_FalarPjStore.setInfoDesejada');
+    try {
+      return super.setInfoDesejada(resp);
+    } finally {
+      _$_FalarPjStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setVoltarInicio(bool resp) {
+    final _$actionInfo = _$_FalarPjStoreActionController.startAction(
+        name: '_FalarPjStore.setVoltarInicio');
+    try {
+      return super.setVoltarInicio(resp);
+    } finally {
+      _$_FalarPjStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic addMessage({String msg, String owner}) {
@@ -88,9 +247,15 @@ mixin _$FalarPjStore on _FalarPjStore, Store {
   @override
   String toString() {
     return '''
+areaAtuacao: ${areaAtuacao},
+contato: ${contato},
+infoDesejada: ${infoDesejada},
+voltarInicio: ${voltarInicio},
 listaPromotoria: ${listaPromotoria},
+contatos: ${contatos},
 messages: ${messages},
-areasAtuacao: ${areasAtuacao}
+areasAtuacao: ${areasAtuacao},
+intent: ${intent}
     ''';
   }
 }
