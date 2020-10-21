@@ -51,6 +51,7 @@ flutter:
     - assets/small/robot.png
     - assets/original/mpsp-logo.png
     - assets/small/google_icon32x32.png
+    - assets/original/loading-message.gif
   fonts:
     - family: Ubuntu
       fonts:

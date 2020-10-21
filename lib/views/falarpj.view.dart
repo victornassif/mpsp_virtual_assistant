@@ -17,10 +17,6 @@ class _FalarPjState extends State<FalarPj> {
 
   @override
   Widget build(BuildContext context) {
-
-    Timer( Duration(milliseconds: 1), () =>    
-        this.listScrollController.jumpTo(-this.listScrollController.position.maxScrollExtent));
-
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -31,7 +27,7 @@ class _FalarPjState extends State<FalarPj> {
               Expanded(
                 child: Observer(
                   builder: (context) => ListView.builder(
-                    itemCount: this.store.reversedMessages.length,
+                    itemCount: store.reversedMessages.length,
                     controller: listScrollController,
                     reverse: true,
                     itemBuilder: (_, index) =>
@@ -53,7 +49,7 @@ class _FalarPjState extends State<FalarPj> {
                 color: const Color(0xFF022c43),
               ),
               width: MediaQuery.of(context).size.width,
-                          child: Padding(
+              child: Padding(
                   padding: EdgeInsets.all(10),
                   child: Observer(
                     builder: (context) {
@@ -195,7 +191,7 @@ class _FalarPjState extends State<FalarPj> {
   Container messageUser({BuildContext context, String msg}) {
     return Container(
       alignment: Alignment.bottomRight,
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.all(5),
       width: MediaQuery.of(context).size.width,
       child: Container(
         height: MediaQuery.of(context).size.height * 0.1,
