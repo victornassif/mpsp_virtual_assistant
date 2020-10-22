@@ -8,30 +8,29 @@ class MessageBox extends StatefulWidget {
 
   final String msg;
   final String owner;
+  final bool writing;
 
-  const MessageBox({Key key, this.msg, this.owner}) : super(key: key);
+  const MessageBox({Key key, this.msg, this.owner, this.writing})
+      : super(key: key);
 }
 
 class _MessageBoxState extends State<MessageBox> {
-  bool writing = true;
+  bool writing = false;
 
   @override
   initState() {
     super.initState();
-
-    Timer(Duration(seconds: 2), () {
-      setState(() {
-        writing = false;
-      });
+    setState(() {
+      writing = widget.writing;
     });
   }
 
-  Image avatar({String owner}) {
-    return owner == 'user'
+  Widget avatar({String owner}) {
+    return owner == 'bot'
         ? Image(
             image: AssetImage('assets/small/robot.png'),
           )
-        : null;
+        : SizedBox(height: 20);
   }
 
   Container message({BuildContext context, String msg, String owner}) {
@@ -64,32 +63,47 @@ class _MessageBoxState extends State<MessageBox> {
     );
   }
 
-  Container messageLoading({String owner}) {
+  Container messageLoading({BuildContext context, String owner}) {
     return Container(
       alignment: owner == 'user' ? Alignment.bottomRight : Alignment.bottomLeft,
       margin: EdgeInsets.all(5),
       width: MediaQuery.of(context).size.width,
-      child: Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: MediaQuery.of(context).size.width * 0.70,
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(21),
-          ),
-          child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 0, 0),
-              child: Image.asset(
-                "assets/original/loading-message.gif",
-                height: 125.0,
-                width: 125.0,
-              ))),
+      child: Row(
+        children: [
+          avatar(owner: owner),
+          Container(
+              height: MediaQuery.of(context).size.height * 0.1,
+              width: MediaQuery.of(context).size.width * 0.70,
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(21),
+              ),
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 8, 0, 0),
+                  child: Image.asset(
+                    "assets/original/loading-message.gif",
+                    height: 125.0,
+                    width: 125.0,
+                  )))
+        ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+
+    
+    if (this.writing == true) {
+      Timer(Duration(seconds: 5), () {
+        setState(() {
+          writing = false;
+        });
+      });
+    }
+
     return writing
-        ? messageLoading(owner: widget.owner)
+        ? messageLoading(context: context, owner: widget.owner)
         : message(context: context, msg: widget.msg, owner: widget.owner);
   }
 }

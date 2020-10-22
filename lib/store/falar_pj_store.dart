@@ -36,7 +36,7 @@ abstract class _FalarPjStore with Store {
     setIntent(FalarPjIntent.TIPO_CONTATO);
     addMessage(
         msg: 'Ok. Por favor, informe o tipo de contato que você deseja fazer',
-        owner: 'owner');
+        owner: 'bot');
   }
 
   loadIntentInfoDesejada() {

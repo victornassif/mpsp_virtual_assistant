@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mpsp_virtual_assistant/components/message-box.dart';
 import 'package:mpsp_virtual_assistant/intents/falar_pj_intents.dart';
 import 'package:mpsp_virtual_assistant/store/falar_pj_store.dart';
 
@@ -31,13 +32,11 @@ class _FalarPjState extends State<FalarPj> {
                     controller: listScrollController,
                     reverse: true,
                     itemBuilder: (_, index) =>
-                        this.store.reversedMessages[index].owner == 'user'
-                            ? messageUser(
-                                context: context,
-                                msg: store.reversedMessages[index].msg)
-                            : messageBot(
-                                context: context,
-                                msg: store.reversedMessages[index].msg),
+                      MessageBox(
+                        msg: store.reversedMessages[index].msg,
+                        owner: store.reversedMessages[index].owner,
+                        writing: true,
+                      ),
                   ),
                 ),
               ),
@@ -84,7 +83,10 @@ class _FalarPjState extends State<FalarPj> {
           onPressed: () {
             store.setAreaAtuacao(store.areasAtuacao[index]);
             store.addMessage(msg: store.areaAtuacao.nome, owner: 'user');
-            store.loadIntentTipoContato();
+            Timer(Duration(seconds: 5), () {
+              store.loadIntentTipoContato();
+            });
+            
           }),
     );
   }

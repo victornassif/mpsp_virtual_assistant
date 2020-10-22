@@ -9,6 +9,15 @@ part of 'falar_pj_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$FalarPjStore on _FalarPjStore, Store {
+  Computed<ObservableList<MessageModel>> _$reversedMessagesComputed;
+
+  @override
+  ObservableList<MessageModel> get reversedMessages =>
+      (_$reversedMessagesComputed ??= Computed<ObservableList<MessageModel>>(
+              () => super.reversedMessages,
+              name: '_FalarPjStore.reversedMessages'))
+          .value;
+
   final _$areaAtuacaoAtom = Atom(name: '_FalarPjStore.areaAtuacao');
 
   @override
@@ -255,7 +264,8 @@ listaPromotoria: ${listaPromotoria},
 contatos: ${contatos},
 messages: ${messages},
 areasAtuacao: ${areasAtuacao},
-intent: ${intent}
+intent: ${intent},
+reversedMessages: ${reversedMessages}
     ''';
   }
 }
