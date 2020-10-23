@@ -123,6 +123,21 @@ mixin _$FalarPjStore on _FalarPjStore, Store {
     });
   }
 
+  final _$loadingMessagesAtom = Atom(name: '_FalarPjStore.loadingMessages');
+
+  @override
+  ObservableList<MessageModel> get loadingMessages {
+    _$loadingMessagesAtom.reportRead();
+    return super.loadingMessages;
+  }
+
+  @override
+  set loadingMessages(ObservableList<MessageModel> value) {
+    _$loadingMessagesAtom.reportWrite(value, super.loadingMessages, () {
+      super.loadingMessages = value;
+    });
+  }
+
   final _$areasAtuacaoAtom = Atom(name: '_FalarPjStore.areasAtuacao');
 
   @override
@@ -167,6 +182,14 @@ mixin _$FalarPjStore on _FalarPjStore, Store {
   @override
   Future setContatos() {
     return _$setContatosAsyncAction.run(() => super.setContatos());
+  }
+
+  final _$addMessageAsyncAction = AsyncAction('_FalarPjStore.addMessage');
+
+  @override
+  Future<bool> addMessage({String msg, String owner, bool writing}) {
+    return _$addMessageAsyncAction
+        .run(() => super.addMessage(msg: msg, owner: owner, writing: writing));
   }
 
   final _$getAreasAtuacaoAsyncAction =
@@ -243,17 +266,6 @@ mixin _$FalarPjStore on _FalarPjStore, Store {
   }
 
   @override
-  dynamic addMessage({String msg, String owner}) {
-    final _$actionInfo = _$_FalarPjStoreActionController.startAction(
-        name: '_FalarPjStore.addMessage');
-    try {
-      return super.addMessage(msg: msg, owner: owner);
-    } finally {
-      _$_FalarPjStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 areaAtuacao: ${areaAtuacao},
@@ -263,6 +275,7 @@ voltarInicio: ${voltarInicio},
 listaPromotoria: ${listaPromotoria},
 contatos: ${contatos},
 messages: ${messages},
+loadingMessages: ${loadingMessages},
 areasAtuacao: ${areasAtuacao},
 intent: ${intent},
 reversedMessages: ${reversedMessages}

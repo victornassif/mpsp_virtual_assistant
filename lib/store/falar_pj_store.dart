@@ -1,4 +1,6 @@
+import 'dart:async';
 import "package:mobx/mobx.dart";
+import 'package:mpsp_virtual_assistant/config/chatbot_config.dart';
 import 'package:mpsp_virtual_assistant/intents/falar_pj_intents.dart';
 import 'package:mpsp_virtual_assistant/model/area_atuacao_model.dart';
 import 'package:mpsp_virtual_assistant/model/contato_model.dart';
@@ -26,32 +28,28 @@ abstract class _FalarPjStore with Store {
     loadIntentAreaAtuacao();
   }
 
-  loadIntentAreaAtuacao() {
+  loadIntentAreaAtuacao() async {
+    await addMessage(
+      msg: 'Olá! Por favor, nos informe sua área de atuação', 
+      owner: 'bot',
+    );
     setIntent(FalarPjIntent.AREA_ATUACAO);
-    addMessage(
-        msg: 'Olá! Por favor, nos informe sua área de atuação', owner: 'bot');
   }
 
   loadIntentTipoContato() {
     setIntent(FalarPjIntent.TIPO_CONTATO);
-    addMessage(
-        msg: 'Ok. Por favor, informe o tipo de contato que você deseja fazer',
-        owner: 'bot');
   }
 
   loadIntentInfoDesejada() {
     setIntent(FalarPjIntent.INFO_DESEJADA);
-    addMessage(msg: 'Você achou a informação desejada?', owner: 'bot');
   }
 
   loadIntentPesquisaSatisfacao() {
     setIntent(FalarPjIntent.PESQUISA_SATISFACAO);
-    addMessage(msg: 'Por favor, responda uma breve pesquisa sobre o atendimento', owner: 'bot');
   }
 
   loadItentVoltarInicio() {
     setIntent(FalarPjIntent.VOLTAR_INICIO);
-    addMessage(msg: 'Deseja ser atendido novamente?', owner: 'bot');
   }
 
   @observable
@@ -76,8 +74,17 @@ abstract class _FalarPjStore with Store {
   @observable
   ObservableList<MessageModel> messages = <MessageModel>[].asObservable();
 
+  @observable
+  ObservableList<MessageModel> loadingMessages =
+      <MessageModel>[].asObservable();
+
   @computed
-  ObservableList<MessageModel> get reversedMessages => this.messages.reversed.toList().asObservable();
+  ObservableList<MessageModel> get reversedMessages {
+    ObservableList<MessageModel> all = <MessageModel>[].asObservable();
+    all.addAll(this.messages);
+    all.addAll(this.loadingMessages);
+    return all.reversed.toList().asObservable();
+  }
 
   @observable
   ObservableList<AreaAtuacaoModel> areasAtuacao =
@@ -99,8 +106,6 @@ abstract class _FalarPjStore with Store {
   @action
   setContato(ContatoModel contato) {
     this.contato = contato;
-    // Lógica para exibir as informações do contato selecionado
-    addMessage(msg: 'Informações do contato ${contato.nome}', owner: 'bot');
   }
 
   @action
@@ -126,9 +131,38 @@ abstract class _FalarPjStore with Store {
   }
 
   @action
-  addMessage({String msg, String owner}) {
-    MessageModel message = new MessageModel(msg: msg, owner: owner);
-    this.messages.add(message);
+  Future<bool> addMessage({String msg, String owner, bool writing}) async {
+
+    /**
+     * Regra Padrâo:
+     * Se writing não for passado, 
+     * mensagens do bot exibirão writing e mensagens do usuário não exibirão writing
+     */
+    bool loading = writing;
+    if (writing == null) {
+      loading = owner == 'bot';
+    }
+
+    MessageModel message =
+        new MessageModel(msg: msg, owner: owner, writing: loading);
+
+    if (loading) {
+      this.loadingMessages.add(message);
+      return Future.delayed(
+        const Duration(seconds: ChatbotConfig.WRITING_TIME_SECOND),
+        () {
+          this.loadingMessages.removeWhere(
+              (loadingMessage) => loadingMessage.uuid == message.uuid);
+          message.writing = false;
+          this.messages.add(message);
+          return true;
+        },
+      );
+
+    } else {
+      this.messages.add(message);
+      return Future.value(true);
+    }
   }
 
   @action

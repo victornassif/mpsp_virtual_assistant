@@ -32,6 +32,10 @@ dependencies:
   mobx: ^1.0.0
   flutter_mobx: ^1.0.0
 
+  uuid: ^2.2.2
+
+  flutter_dotenv: ^2.1.0
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -52,6 +56,7 @@ flutter:
     - assets/original/mpsp-logo.png
     - assets/small/google_icon32x32.png
     - assets/original/loading-message.gif
+    - .env
   fonts:
     - family: Ubuntu
       fonts:

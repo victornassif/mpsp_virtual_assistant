@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mpsp_virtual_assistant/themes/style.dart';
 import 'package:mpsp_virtual_assistant/views/assistant.view.dart';
 import 'package:mpsp_virtual_assistant/views/login.view.dart';
 import 'package:mpsp_virtual_assistant/views/options.view.dart';
 
-void main() {
+Future main() async {
+  await DotEnv().load('.env');
   runApp(MyApp());
 }
 
