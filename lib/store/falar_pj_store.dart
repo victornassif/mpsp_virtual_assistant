@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:math';
+import 'package:intl/intl.dart';
 import "package:mobx/mobx.dart";
 import 'package:mpsp_virtual_assistant/config/chatbot_config.dart';
 import 'package:mpsp_virtual_assistant/intents/falar_pj_intents.dart';
@@ -23,14 +25,25 @@ abstract class _FalarPjStore with Store {
   }
 
   init() async {
+    this.protocolo = this.generateProtocolNumber();
     getContatos();
     getAreasAtuacao();
     loadIntentAreaAtuacao();
   }
 
+  String generateProtocolNumber() {
+    Random random = new Random();
+    DateTime now = DateTime.now();
+    DateFormat formatter = DateFormat('yyyyMMdd');
+    String formatted = formatter.format(now);
+    int randomNumber = 1000 + random.nextInt(9999 - 1000);
+    return "$formatted${randomNumber.toString()}";
+  }
+
   loadIntentAreaAtuacao() async {
     await addMessage(
-      msg: 'Olá! Por favor, nos informe sua área de atuação', 
+      msg:
+          "Olá! Seu número de protocolo é ${this.protocolo}. Por favor, nos informe sua área de atuação",
       owner: 'bot',
     );
     setIntent(FalarPjIntent.AREA_ATUACAO);
@@ -59,6 +72,8 @@ abstract class _FalarPjStore with Store {
   loadIntentSairDoChat() {
     setIntent(FalarPjIntent.SAIR_DO_CHAT);
   }
+
+  String protocolo;
 
   @observable
   AreaAtuacaoModel areaAtuacao;
@@ -148,7 +163,6 @@ abstract class _FalarPjStore with Store {
 
   @action
   Future<bool> addMessage({String msg, String owner, bool writing}) async {
-
     /**
      * Regra Padrâo:
      * Se writing não for passado, 
@@ -174,7 +188,6 @@ abstract class _FalarPjStore with Store {
           return true;
         },
       );
-
     } else {
       this.messages.add(message);
       return Future.value(true);
