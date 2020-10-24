@@ -78,6 +78,21 @@ mixin _$FalarPjStore on _FalarPjStore, Store {
     });
   }
 
+  final _$raitingAtom = Atom(name: '_FalarPjStore.raiting');
+
+  @override
+  int get raiting {
+    _$raitingAtom.reportRead();
+    return super.raiting;
+  }
+
+  @override
+  set raiting(int value) {
+    _$raitingAtom.reportWrite(value, super.raiting, () {
+      super.raiting = value;
+    });
+  }
+
   final _$listaPromotoriaAtom = Atom(name: '_FalarPjStore.listaPromotoria');
 
   @override
@@ -211,6 +226,17 @@ mixin _$FalarPjStore on _FalarPjStore, Store {
       ActionController(name: '_FalarPjStore');
 
   @override
+  dynamic setRating(int raiting) {
+    final _$actionInfo = _$_FalarPjStoreActionController.startAction(
+        name: '_FalarPjStore.setRating');
+    try {
+      return super.setRating(raiting);
+    } finally {
+      _$_FalarPjStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setIntent(FalarPjIntent intent) {
     final _$actionInfo = _$_FalarPjStoreActionController.startAction(
         name: '_FalarPjStore.setIntent');
@@ -272,6 +298,7 @@ areaAtuacao: ${areaAtuacao},
 contato: ${contato},
 infoDesejada: ${infoDesejada},
 voltarInicio: ${voltarInicio},
+raiting: ${raiting},
 listaPromotoria: ${listaPromotoria},
 contatos: ${contatos},
 messages: ${messages},

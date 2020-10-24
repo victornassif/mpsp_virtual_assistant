@@ -44,12 +44,20 @@ abstract class _FalarPjStore with Store {
     setIntent(FalarPjIntent.INFO_DESEJADA);
   }
 
-  loadIntentPesquisaSatisfacao() {
+  loadIntentPesquisaSatisfacao() async {
+    await addMessage(
+      msg: 'O que você achou do nosso atendimento?',
+      owner: 'bot',
+    );
     setIntent(FalarPjIntent.PESQUISA_SATISFACAO);
   }
 
   loadItentVoltarInicio() {
     setIntent(FalarPjIntent.VOLTAR_INICIO);
+  }
+
+  loadIntentSairDoChat() {
+    setIntent(FalarPjIntent.SAIR_DO_CHAT);
   }
 
   @observable
@@ -63,6 +71,9 @@ abstract class _FalarPjStore with Store {
 
   @observable
   bool voltarInicio;
+
+  @observable
+  int raiting;
 
   @observable
   ObservableList<PromotoriaModel> listaPromotoria =
@@ -92,6 +103,11 @@ abstract class _FalarPjStore with Store {
 
   @observable
   FalarPjIntent intent;
+
+  @action
+  setRating(int raiting) {
+    this.raiting = raiting;
+  }
 
   @action
   setIntent(FalarPjIntent intent) {

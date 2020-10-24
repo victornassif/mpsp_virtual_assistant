@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mpsp_virtual_assistant/components/message-box.dart';
 import 'package:mpsp_virtual_assistant/config/chatbot_config.dart';
 import 'package:mpsp_virtual_assistant/intents/falar_pj_intents.dart';
@@ -61,6 +62,10 @@ class _FalarPjState extends State<FalarPj> {
                         return selectableInformacaoDesejada();
                       case FalarPjIntent.VOLTAR_INICIO:
                         return selectableVoltarInicio();
+                      case FalarPjIntent.PESQUISA_SATISFACAO:
+                        return selectablePesquisaSatisfacao();
+                      case FalarPjIntent.SAIR_DO_CHAT:
+                        return selectableSairDoChat(context);
                       default:
                         return SizedBox(height: 16);
                     }
@@ -72,6 +77,39 @@ class _FalarPjState extends State<FalarPj> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget selectablePesquisaSatisfacao() {
+    return Row(
+      children: [
+        RatingBar(
+          initialRating: 3,
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, _) => Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (double rating) {
+            int intRating = rating.round();
+            store.setRating(intRating);
+          },
+        ),
+        optionButton(
+          text: 'Proseguir',
+          onPressed: () async {
+            await store.addMessage(
+                msg:
+                    'Espero ter ajudado! Uma cópia da conversa será enviada a você por e-mail.',
+                owner: 'bot');
+            store.loadIntentSairDoChat();
+          },
+        ),
+      ],
     );
   }
 
@@ -145,10 +183,6 @@ class _FalarPjState extends State<FalarPj> {
           onPressed: () async {
             await store.addMessage(msg: 'Sim', owner: 'user');
             store.setInfoDesejada(true);
-            await store.addMessage(
-              msg: 'Por favor, responda uma breve pesquisa sobre o atendimento',
-              owner: 'bot',
-            );
             store.loadIntentPesquisaSatisfacao();
           },
         ),
@@ -165,6 +199,15 @@ class _FalarPjState extends State<FalarPj> {
           },
         ),
       ],
+    );
+  }
+
+  Widget selectableSairDoChat(BuildContext context) {
+    return optionButton(
+      text: 'Voltar para tela de opções',
+      onPressed: () async {
+        Navigator.pushReplacementNamed(context, '/options');
+      },
     );
   }
 
