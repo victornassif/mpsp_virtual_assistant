@@ -101,13 +101,7 @@ class _FalarPjState extends State<FalarPj> {
         ),
         optionButton(
           text: 'Proseguir',
-          onPressed: () async {
-            await store.addMessage(
-                msg:
-                    'Espero ter ajudado! Uma cópia da conversa será enviada a você por e-mail.',
-                owner: 'bot');
-            store.loadIntentSairDoChat();
-          },
+          onPressed: () async => store.loadIntentSairDoChat(),
         ),
       ],
     );
@@ -125,14 +119,7 @@ class _FalarPjState extends State<FalarPj> {
             (bool messageWrited) {
               Timer(
                 Duration(seconds: ChatbotConfig.CHATBOT_READING_TIME_SECOND),
-                () async {
-                  await store.addMessage(
-                    msg:
-                        'Ok. Por favor, informe o tipo de contato que você deseja fazer',
-                    owner: 'bot',
-                  );
-                  store.loadIntentTipoContato();
-                },
+                () async => store.loadIntentTipoContato(),
               );
             },
           );
@@ -150,20 +137,16 @@ class _FalarPjState extends State<FalarPj> {
         onPressed: () async {
           String messageContatoEscolhido = store.contatos[index].nome;
           await store.addMessage(msg: messageContatoEscolhido, owner: 'user');
-
-          String contatoInfo =
-              'Informações do contato ${store.contatos[index].nome}';
+          
           store.setContato(store.contatos[index]);
 
           Timer(
             Duration(seconds: ChatbotConfig.CHATBOT_READING_TIME_SECOND),
             () async {
+              String contatoInfo =
+              'Informações do contato ${store.contatos[index].nome}';
               await store.addMessage(
                 msg: contatoInfo,
-                owner: 'bot',
-              );
-              await store.addMessage(
-                msg: 'Você achou a informação desejada?',
                 owner: 'bot',
               );
               store.loadIntentInfoDesejada();

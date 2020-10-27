@@ -49,11 +49,20 @@ abstract class _FalarPjStore with Store {
     setIntent(FalarPjIntent.AREA_ATUACAO);
   }
 
-  loadIntentTipoContato() {
+  loadIntentTipoContato() async {
+    await addMessage(
+      msg:
+        'Ok. Por favor, informe o tipo de contato que você deseja fazer',
+      owner: 'bot',
+    );
     setIntent(FalarPjIntent.TIPO_CONTATO);
   }
 
-  loadIntentInfoDesejada() {
+  loadIntentInfoDesejada() async {
+    await addMessage(
+      msg: 'Você achou a informação desejada?',
+      owner: 'bot',
+    );
     setIntent(FalarPjIntent.INFO_DESEJADA);
   }
 
@@ -69,7 +78,12 @@ abstract class _FalarPjStore with Store {
     setIntent(FalarPjIntent.VOLTAR_INICIO);
   }
 
-  loadIntentSairDoChat() {
+  loadIntentSairDoChat() async {
+    await addMessage(
+      msg:
+        'Espero ter ajudado! Uma cópia da conversa será enviada a você por e-mail.',
+      owner: 'bot',
+    );
     setIntent(FalarPjIntent.SAIR_DO_CHAT);
   }
 
