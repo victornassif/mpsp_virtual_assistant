@@ -14,16 +14,17 @@ class LoginController {
       },
       body: jsonEncode(<String, String>{
         // 'user': user,
-        // 'password': pas sword
+        // 'password': password
         'login': login,
         'senha': password
       }),
     );
 
-    print(res);
-    user.name = null;
-    user.email = null;
-    user.token = null;
+    var decodedBody = json.decode(res.body);
+    if(decodedBody['authenticated']){
+      user.name = decodedBody['userName'].toString();
+      user.token = decodedBody['accessToken'].toString();
+    }
   }
 
   Future logout() async {

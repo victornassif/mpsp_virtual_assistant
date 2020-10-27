@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mpsp_virtual_assistant/user.dart';
 import 'package:toast/toast.dart';
 
 class OptionsView extends StatefulWidget {
@@ -9,6 +10,29 @@ class OptionsView extends StatefulWidget {
 class _OptionsViewState extends State<OptionsView> {
   @override
   Widget build(BuildContext context) {
+    var opcoes = [
+      option(context, 'Falar com a PJ', () {
+        Toast.show("Falar com a PJ", context,
+            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      }),
+    ];
+
+    if (user.token.isNotEmpty) {
+      opcoes.add(option(context, 'Consultar Andamento', () {
+        Toast.show("Consultar andamento", context,
+            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      }));
+
+      opcoes.add(option(context, 'Solicitar Informações', () {
+        Toast.show("Solicitar informações", context,
+            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      }));
+      opcoes.add(option(context, 'Ouvidoria', () {
+        Toast.show("Ouvidoria", context,
+            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      }));
+    }
+
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -53,20 +77,7 @@ class _OptionsViewState extends State<OptionsView> {
               border: Border.all(color: Theme.of(context).cardColor, width: 8),
             ),
             child: Column(
-              children: [
-                option(context, 'Falar com a PJ', () {
-                  Toast.show("Falar com a PJ", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
-                }),
-                option(context, 'Consultar Andamento', () {
-                  Toast.show("Consultar andamento", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
-                }),
-                option(context, 'Solicitar Informações', () {
-                  Toast.show("Solicitar informações", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
-                }),
-                option(context, 'Ouvidoria', () {
-                  Toast.show("Ouvidoria", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
-                }),
-              ],
+              children: opcoes,
             ),
           ),
         ],

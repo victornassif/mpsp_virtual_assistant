@@ -14,7 +14,7 @@ class _LocationViewState extends State<LocationView> {
   @override
   void initState() {
     super.initState();
-    
+
     _getAddressFromLatLng();
   }
 
@@ -27,7 +27,8 @@ class _LocationViewState extends State<LocationView> {
 
       Placemark place = p[0];
 
-      _currentAdress = "${place.locality}, ${place.postalCode}, ${place.country}";
+      _currentAdress =
+          "${place.locality}, ${place.postalCode}, ${place.country}";
 
       setState(() => {});
     } catch (e) {
@@ -82,11 +83,13 @@ class _LocationViewState extends State<LocationView> {
             ),
             child: Column(
               children: [
-                _currentAdress != null ? gps(_currentAdress) : Center(
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 15),
-                      child: CircularProgressIndicator()),
-                ),
+                _currentAdress != null
+                    ? gps(_currentAdress)
+                    : Center(
+                        child: Padding(
+                            padding: EdgeInsets.only(top: 15),
+                            child: CircularProgressIndicator()),
+                      ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(40, 40, 40, 20),
                   child: FlatButton(
@@ -149,9 +152,7 @@ class _LocationViewState extends State<LocationView> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
       child: Text(
-        'Segundo sua localização, você está em ' +
-            address +
-            ', certo?',
+        'Segundo sua localização, você está em ' + address + ', certo?',
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.white,

@@ -7,6 +7,9 @@ class LoginView extends StatefulWidget {
   _LoginViewState createState() => _LoginViewState();
 }
 
+var username;
+var password;
+
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
 
@@ -18,7 +21,8 @@ class _LoginViewState extends State<LoginView> {
     setState(() {
       busy = true;
     });
-    controller.login('vnassif', '12345678').then((data) {
+
+    controller.login(username, password).then((data) {
       onSuccess();
     }).catchError((err) {
       onError();
@@ -79,11 +83,14 @@ class _LoginViewState extends State<LoginView> {
                           padding: EdgeInsets.all(10),
                         ),
                       ),
-                      LoginButton(
-                        callback: (){
-                          handleSignIn();
+                      LoginButton(callback: () {
+                        if (!_formKey.currentState.validate()) {
+                          return;
                         }
-                      ),
+
+                        _formKey.currentState.save();
+                        handleSignIn();
+                      }),
                       SizedBox(
                         child: Padding(
                           padding: EdgeInsets.all(5),
@@ -139,10 +146,7 @@ class SkipLoginButton extends StatelessWidget {
 }
 
 class LoginButton extends StatelessWidget {
-  const LoginButton({
-    Key key,
-    this.callback
-  }) : super(key: key);
+  const LoginButton({Key key, this.callback}) : super(key: key);
   final Function callback;
 
   @override
@@ -201,6 +205,9 @@ class InputPassword extends StatelessWidget {
         }
         return null;
       },
+      onSaved: (val) {
+        password = val.trim();
+      },
     );
   }
 }
@@ -230,6 +237,9 @@ class InputEmail extends StatelessWidget {
           return 'Por favor, digite seu e-mail';
         }
         return null;
+      },
+      onSaved: (val) {
+        username = val.trim();
       },
     );
   }

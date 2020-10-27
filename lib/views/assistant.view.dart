@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mpsp_virtual_assistant/components/navbar.widget.dart';
 import 'package:mpsp_virtual_assistant/views/location.view.dart';
 
 class InitialAssistant extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavBar(),
       appBar: AppBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
