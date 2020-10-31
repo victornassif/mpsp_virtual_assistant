@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mpsp_virtual_assistant/controllers/LoginController.dart';
 import 'package:mpsp_virtual_assistant/views/assistant.view.dart';
+import 'package:toast/toast.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -12,19 +13,25 @@ class _LoginViewState extends State<LoginView> {
 
   final controller = new LoginController();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
+
   var busy = false;
 
+  String username = "";
+  String password = "";
+
   handleSignIn() {
-    setState(() {
-      busy = true;
-    });
-    controller.login('vnassif', '12345678').then((data) {
-      onSuccess();
-    }).catchError((err) {
-      onError();
-    }).whenComplete(() {
-      onComplete();
-    });
+    if (_formKey.currentState.validate()) {
+      setState(() {
+        busy = true;
+      });
+      controller.login(username, password).then((data) {
+        onSuccess();
+      }).catchError((err) {
+        onError();
+      }).whenComplete(() {
+        onComplete();
+      });
+    }
   }
 
   onSuccess() {
@@ -37,8 +44,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   onError() {
-    var snackbar = new SnackBar(content: new Text("Falha no login"));
-    scaffoldKey.currentState.showSnackBar(snackbar);
+    Toast.show("Falha no login. Por favor, verifique o usuário e a senha.", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
   }
 
   onComplete() {
@@ -71,9 +77,21 @@ class _LoginViewState extends State<LoginView> {
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(bottom: 10),
-                        child: InputEmail(),
+                        child: InputEmail(
+                          setEmail: (value) {
+                            setState(() {
+                              username = value.toString();
+                            });
+                          }
+                        ),
                       ),
-                      InputPassword(),
+                      InputPassword(
+                        setPassword: (value) {
+                          setState(() {
+                            password = value.toString();
+                          });
+                        }
+                      ),
                       SizedBox(
                         child: Padding(
                           padding: EdgeInsets.all(10),
@@ -175,8 +193,12 @@ class LoginButton extends StatelessWidget {
 }
 
 class InputPassword extends StatelessWidget {
+
+  final setPassword;
+
   const InputPassword({
     Key key,
+    this.setPassword,
   }) : super(key: key);
 
   @override
@@ -198,6 +220,8 @@ class InputPassword extends StatelessWidget {
       validator: (value) {
         if (value.isEmpty) {
           return 'Por favor, digite sua senha';
+        } else {
+          this.setPassword(value.toString());
         }
         return null;
       },
@@ -206,8 +230,12 @@ class InputPassword extends StatelessWidget {
 }
 
 class InputEmail extends StatelessWidget {
+
+  final setEmail;
+
   const InputEmail({
     Key key,
+    this.setEmail,
   }) : super(key: key);
 
   @override
@@ -228,6 +256,8 @@ class InputEmail extends StatelessWidget {
       validator: (value) {
         if (value.isEmpty) {
           return 'Por favor, digite seu e-mail';
+        } else {
+          this.setEmail(value.toString());
         }
         return null;
       },
