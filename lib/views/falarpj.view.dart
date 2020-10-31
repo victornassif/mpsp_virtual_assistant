@@ -174,10 +174,6 @@ class _FalarPjState extends State<FalarPj> {
           onPressed: () async {
             await store.addMessage(msg: 'Não', owner: 'user');
             store.setInfoDesejada(false);
-            await store.addMessage(
-              msg: 'Deseja ser atendido novamente?',
-              owner: 'bot',
-            );
             store.loadItentVoltarInicio();
           },
         ),

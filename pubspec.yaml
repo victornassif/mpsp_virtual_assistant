@@ -60,6 +60,12 @@ flutter:
     - assets/original/mpsp-logo.png
     - assets/small/google_icon32x32.png
     - assets/original/loading-message.gif
+    - assets/messages/falar-pj/area-atuacao.json
+    - assets/messages/falar-pj/tipo-contato.json
+    - assets/messages/falar-pj/info-desejada.json
+    - assets/messages/falar-pj/pesquisa-satisfacao.json
+    - assets/messages/falar-pj/voltar-inicio.json
+    - assets/messages/falar-pj/sair-do-chat.json
     - .env
   fonts:
     - family: Ubuntu

@@ -10,6 +10,7 @@ import 'package:mpsp_virtual_assistant/model/message_model.dart';
 import 'package:mpsp_virtual_assistant/model/promotoria_model.dart';
 import 'package:mpsp_virtual_assistant/services/area_atuacao_service.dart';
 import 'package:mpsp_virtual_assistant/services/contatos_service.dart';
+import 'package:mpsp_virtual_assistant/services/defaultMessages/falar_pj_default_messages.dart';
 import 'package:mpsp_virtual_assistant/services/promotoria_service.dart';
 part "falar_pj_store.g.dart";
 
@@ -42,8 +43,8 @@ abstract class _FalarPjStore with Store {
 
   loadIntentAreaAtuacao() async {
     await addMessage(
-      msg:
-          "Olá! Seu número de protocolo é ${this.protocolo}. Por favor, nos informe sua área de atuação",
+      msg: (await FalarPjDefaultMessages.getRandomMessageIntentAreaAtuacao())
+          .replaceFirst('!PROTOCOLO!', this.protocolo),
       owner: 'bot',
     );
     setIntent(FalarPjIntent.AREA_ATUACAO);
@@ -51,8 +52,7 @@ abstract class _FalarPjStore with Store {
 
   loadIntentTipoContato() async {
     await addMessage(
-      msg:
-        'Ok. Por favor, informe o tipo de contato que você deseja fazer',
+      msg: (await FalarPjDefaultMessages.getRandomMessageIntentTipoContato()),
       owner: 'bot',
     );
     setIntent(FalarPjIntent.TIPO_CONTATO);
@@ -60,7 +60,7 @@ abstract class _FalarPjStore with Store {
 
   loadIntentInfoDesejada() async {
     await addMessage(
-      msg: 'Você achou a informação desejada?',
+      msg: (await FalarPjDefaultMessages.getRandomMessageIntentInfoDesejada()),
       owner: 'bot',
     );
     setIntent(FalarPjIntent.INFO_DESEJADA);
@@ -68,20 +68,24 @@ abstract class _FalarPjStore with Store {
 
   loadIntentPesquisaSatisfacao() async {
     await addMessage(
-      msg: 'O que você achou do nosso atendimento?',
+      msg: (await FalarPjDefaultMessages
+          .getRandomMessageIntentPesquisaSatisfacao()),
       owner: 'bot',
     );
     setIntent(FalarPjIntent.PESQUISA_SATISFACAO);
   }
 
-  loadItentVoltarInicio() {
+  loadItentVoltarInicio() async {
+    await addMessage(
+      msg: (await FalarPjDefaultMessages.getRandomMessageIntentVoltarInicio()),
+      owner: 'bot',
+    );
     setIntent(FalarPjIntent.VOLTAR_INICIO);
   }
 
   loadIntentSairDoChat() async {
     await addMessage(
-      msg:
-        'Espero ter ajudado! Uma cópia da conversa será enviada a você por e-mail.',
+      msg: (await FalarPjDefaultMessages.getRandomMessageIntentSairDoChat()),
       owner: 'bot',
     );
     setIntent(FalarPjIntent.SAIR_DO_CHAT);
