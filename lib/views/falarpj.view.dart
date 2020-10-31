@@ -6,6 +6,7 @@ import 'package:mpsp_virtual_assistant/components/message-box.dart';
 import 'package:mpsp_virtual_assistant/config/chatbot_config.dart';
 import 'package:mpsp_virtual_assistant/intents/falar_pj_intents.dart';
 import 'package:mpsp_virtual_assistant/store/falar_pj_store.dart';
+import 'package:mpsp_virtual_assistant/model/promotoria_model.dart';
 
 class FalarPj extends StatefulWidget {
   @override
@@ -143,12 +144,31 @@ class _FalarPjState extends State<FalarPj> {
           Timer(
             Duration(seconds: ChatbotConfig.CHATBOT_READING_TIME_SECOND),
             () async {
-              String contatoInfo =
-              'Informações do contato ${store.contatos[index].nome}';
-              await store.addMessage(
-                msg: contatoInfo,
-                owner: 'bot',
-              );
+
+              switch (store.contatos[index].id) {
+                case 1: // Telefone
+                  store.listaPromotoria.forEach((PromotoriaModel promotoria) async {
+                    await store.addMessage(
+                      msg: "Nome Promotoria: ${promotoria.nome}; Telefone: (11) 9999-9999",
+                      owner: 'bot',
+                    );
+                  });
+                  break;
+                case 2: // WhatsApp
+                  store.listaPromotoria.forEach((PromotoriaModel promotoria) async {
+                    await store.addMessage(
+                      msg: "Nome Promotoria: ${promotoria.nome}; WhatsApp: (11) 9 9999-9999",
+                      owner: 'bot',
+                    );
+                  });
+                  break;
+                default:
+                  String contatoInfo = 'Informações do contato ${store.contatos[index].nome}';
+                  await store.addMessage(
+                    msg: contatoInfo,
+                    owner: 'bot',
+                  );
+              }
               store.loadIntentInfoDesejada();
             },
           );

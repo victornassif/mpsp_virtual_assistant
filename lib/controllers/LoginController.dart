@@ -1,9 +1,10 @@
 import 'dart:convert';
 import '../user.dart';
 import 'package:http/http.dart' as http;
+import '../services/api_config.dart';
 
 class LoginController {
-  var url = "https://uapi-mpsp.azurewebsites.net/api/Auth/auth";
+  var url = ApiConfig.url + "Auth/auth";
 
   Future login(login, password) async {
     var res = await http.post(
@@ -23,6 +24,7 @@ class LoginController {
     Map<String, dynamic> jsonRes = json.decode(res.body);
 
     if (jsonRes['authenticated'] == true) {
+      ApiConfig.setToken(jsonRes['accessToken']);
       user.name = jsonRes['userName'];
       user.email = jsonRes['login'];
       user.token = jsonRes['accessToken'];

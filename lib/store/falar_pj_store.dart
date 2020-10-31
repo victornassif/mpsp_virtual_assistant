@@ -150,6 +150,7 @@ abstract class _FalarPjStore with Store {
   @action
   setAreaAtuacao(AreaAtuacaoModel areaAtuacao) {
     this.areaAtuacao = areaAtuacao;
+    setPromotorias(areaAtuacao.id);
   }
 
   @action
