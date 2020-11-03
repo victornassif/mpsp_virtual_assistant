@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mpsp_virtual_assistant/user.dart';
+import 'package:mpsp_virtual_assistant/views/falarpj.view.dart';
 import 'package:toast/toast.dart';
 
 class OptionsView extends StatefulWidget {
@@ -12,8 +13,8 @@ class _OptionsViewState extends State<OptionsView> {
   Widget build(BuildContext context) {
     var opcoes = [
       option(context, 'Falar com a PJ', () {
-        Toast.show("Falar com a PJ", context,
-            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => FalarPj()));
       }),
     ];
 
@@ -50,15 +51,14 @@ class _OptionsViewState extends State<OptionsView> {
                   borderRadius: BorderRadius.circular(21),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 8, 0, 0),
-                  child: Text(
-                    'O que deseja fazer?',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                    ),
-                  ),
-                ),
+                    padding: const EdgeInsets.fromLTRB(20, 8, 0, 0),
+                    child: Text(
+                      'O que deseja fazer?',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24,
+                      ),
+                    )),
               ),
               Image(
                 image: AssetImage('assets/small/robot.png'),

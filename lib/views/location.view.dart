@@ -21,7 +21,7 @@ class _LocationViewState extends State<LocationView> {
   _getAddressFromLatLng() async {
     try {
       this._currentPosition =
-          await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+          await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       List<Placemark> p = await placemarkFromCoordinates(
           _currentPosition.latitude, _currentPosition.longitude);
 
