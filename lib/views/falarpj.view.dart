@@ -160,6 +160,21 @@ class _FalarPjState extends State<FalarPj> {
                     );
                   });
                   break;
+                case 3:
+                  String contatoInfo = 'Para obter informações através do portal, acesse: http://www.mpsp.mp.br/portal/page/portal/fale_conosco/faleconosco';
+                  await store.addMessage(
+                    msg: contatoInfo,
+                    owner: 'bot',
+                  );
+                  break;
+                case 4:
+                  store.listaPromotoria.forEach((PromotoriaModel promotoria) async {
+                    await store.addMessage(
+                      msg: "Nome Promotoria: ${promotoria.nome}; Endereço: ${promotoria.rua}, ${promotoria.numero.toString()} - ${promotoria.bairro}, ${promotoria.cidade}",
+                      owner: 'bot',
+                    );
+                  });
+                  break;
                 default:
                   String contatoInfo = 'Informações do contato ${store.contatos[index].nome}';
                   await store.addMessage(

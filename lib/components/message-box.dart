@@ -30,15 +30,22 @@ class _MessageBoxState extends State<MessageBox> {
       child: Row(
         children: [
           avatar(owner: owner),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.1,
+          ConstrainedBox(
+            constraints: new BoxConstraints(
+              maxHeight: 300.0,
+              maxWidth: MediaQuery.of(context).size.width * 0.70,
+              minHeight: 60.0,
+              minWidth: 30.0,
+            ),
+            child: Container(
+            //height: MediaQuery.of(context).size.height * 0.1,
             width: MediaQuery.of(context).size.width * 0.70,
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(21),
             ),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 0, 0),
+              padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
               child: Text(
                 msg,
                 style: TextStyle(
@@ -47,6 +54,7 @@ class _MessageBoxState extends State<MessageBox> {
                 ),
               ),
             ),
+          ),
           ),
         ],
       ),
