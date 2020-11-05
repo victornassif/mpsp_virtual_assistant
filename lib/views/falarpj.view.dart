@@ -99,7 +99,7 @@ class _FalarPjState extends State<FalarPj> {
           },
         ),
         optionButton(
-          text: 'Proseguir',
+          text: 'Continuar',
           onPressed: () async => store.loadIntentSairDoChat(),
         ),
       ],
@@ -146,12 +146,14 @@ class _FalarPjState extends State<FalarPj> {
               switch (store.contatos[index].id) {
                 case 1: // Telefone
                   if (store.listaPromotoria.length > 0) {
-                    store.listaPromotoria.forEach((PromotoriaModel promotoria) async {
-                      await store.addMessage(
-                        msg: "Nome Promotoria: ${promotoria.nome}; Telefone: (11) 9999-9999",
-                        owner: 'bot',
-                      );
+                    String msg = '';
+                    store.listaPromotoria.forEach((PromotoriaModel promotoria) {
+                      msg += "Nome Promotoria: ${promotoria.nome}\nTelefone: (11) 9999-9999\n\n";
                     });
+                    await store.addMessage(
+                      msg: msg,
+                      owner: 'bot',
+                    );
                   } else {
                     await store.addMessage(
                       msg: "Desculpe. Não tenho essa informação referente a área de atuação escolhida.",
@@ -161,12 +163,14 @@ class _FalarPjState extends State<FalarPj> {
                   break;
                 case 2: // WhatsApp
                   if (store.listaPromotoria.length > 0) {
+                    String msg = "";
                     store.listaPromotoria.forEach((PromotoriaModel promotoria) async {
-                      await store.addMessage(
-                        msg: "Nome Promotoria: ${promotoria.nome}; WhatsApp: (11) 9 9999-9999",
-                        owner: 'bot',
-                      );
+                      msg += "Nome Promotoria: ${promotoria.nome};\nWhatsApp: (11) 9 9999-9999\n\n";
                     });
+                    await store.addMessage(
+                      msg: msg,
+                      owner: 'bot',
+                    );
                   } else {
                     await store.addMessage(
                       msg: "Desculpe. Não tenho essa informação referente a área de atuação escolhida.",
