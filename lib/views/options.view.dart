@@ -18,7 +18,7 @@ class _OptionsViewState extends State<OptionsView> {
       }),
     ];
 
-    if (user.token.isNotEmpty) {
+    if (user.logado) {
       opcoes.add(option(context, 'Consultar Andamento', () {
         Toast.show("Consultar andamento", context,
             duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);

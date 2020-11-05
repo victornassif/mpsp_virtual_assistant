@@ -12,7 +12,7 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
-    var login = user.token.isNotEmpty
+    var login = user.logado
         ? ListTile(
             trailing: Icon(Icons.exit_to_app),
             title: Text(

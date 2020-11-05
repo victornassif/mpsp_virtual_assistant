@@ -28,7 +28,7 @@ class _LocationViewState extends State<LocationView> {
       Placemark place = p[0];
 
       _currentAdress =
-          "${place.locality}, ${place.postalCode}, ${place.country}";
+          "${place.street}, ${place.subThoroughfare}, ${place.postalCode}, ${place.subLocality} - ${place.subAdministrativeArea}";
 
       setState(() => {});
     } catch (e) {
@@ -74,7 +74,7 @@ class _LocationViewState extends State<LocationView> {
             height: 50,
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.6,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Theme.of(context).secondaryHeaderColor,

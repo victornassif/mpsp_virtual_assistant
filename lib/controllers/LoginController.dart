@@ -7,7 +7,7 @@ class LoginController {
   var url = ApiConfig.url + "Auth/Auth";
   // var url = "https://10.0.2.2:5001/api/Auth/auth";
 
-  Future login(login, password) async {
+  Future login(login, password, logado) async {
     var res = await http.post(
       url,
       headers: <String, String>{
@@ -27,6 +27,7 @@ class LoginController {
       user.name = jsonRes['userName'];
       user.email = jsonRes['login'];
       user.token = jsonRes['accessToken'];
+      user.logado = logado;
     } else {
       throw("Usuário ou senha inválidos!");
     }

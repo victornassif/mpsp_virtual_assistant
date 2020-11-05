@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mpsp_virtual_assistant/controllers/LoginController.dart';
 import 'package:mpsp_virtual_assistant/views/assistant.view.dart';
 import 'package:toast/toast.dart';
@@ -24,7 +25,7 @@ class _LoginViewState extends State<LoginView> {
       setState(() {
         busy = true;
       });
-      controller.login(username, password).
+      controller.login(username, password, true).
       then((data) {
         onSuccess();
       }).catchError((err) {
@@ -47,6 +48,12 @@ class _LoginViewState extends State<LoginView> {
   onError() {
     Toast.show(
         "Falha no login. Por favor, verifique o usuário e a senha.", context,
+        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+  }
+
+  onErrorPularLogin() {
+    Toast.show(
+        "Falha ao pular o login", context,
         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
   }
 
@@ -109,7 +116,16 @@ class _LoginViewState extends State<LoginView> {
                           padding: EdgeInsets.all(5),
                         ),
                       ),
-                      SkipLoginButton()
+                      SkipLoginButton(callback: () {
+                        controller.login(DotEnv().env['PULAR_MOCK_USER'], DotEnv().env['PULAR_MOCK_PASSWORD'], false)
+                        .then((data) {
+                          Navigator.pushReplacementNamed(context, '/home');
+                        }).catchError((err) {
+                          onErrorPularLogin();
+                        }).whenComplete(() {
+                          onComplete();
+                        });
+                      })
                     ],
                   ),
                 ))
@@ -119,8 +135,9 @@ class _LoginViewState extends State<LoginView> {
 }
 
 class SkipLoginButton extends StatelessWidget {
+  final Function callback;
   const SkipLoginButton({
-    Key key,
+    Key key, this.callback
   }) : super(key: key);
 
   @override
@@ -136,7 +153,7 @@ class SkipLoginButton extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             splashColor: Theme.of(context).accentColor,
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/home');
+              callback();
             },
             child: Padding(
               padding: EdgeInsets.only(top: 5, bottom: 5),

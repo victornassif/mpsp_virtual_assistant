@@ -53,6 +53,7 @@ dev_dependencies:
 
 flutter:
   assets: 
+    - .env
     - assets/big/robot.png
     - assets/original/robot.png
     - assets/small/robot.png

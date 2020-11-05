@@ -145,35 +145,56 @@ class _FalarPjState extends State<FalarPj> {
 
               switch (store.contatos[index].id) {
                 case 1: // Telefone
-                  store.listaPromotoria.forEach((PromotoriaModel promotoria) async {
+                  if (store.listaPromotoria.length > 0) {
+                    store.listaPromotoria.forEach((PromotoriaModel promotoria) async {
+                      await store.addMessage(
+                        msg: "Nome Promotoria: ${promotoria.nome}; Telefone: (11) 9999-9999",
+                        owner: 'bot',
+                      );
+                    });
+                  } else {
                     await store.addMessage(
-                      msg: "Nome Promotoria: ${promotoria.nome}; Telefone: (11) 9999-9999",
+                      msg: "Desculpe. Não tenho essa informação referente a área de atuação escolhida.",
                       owner: 'bot',
                     );
-                  });
+                  }
                   break;
                 case 2: // WhatsApp
-                  store.listaPromotoria.forEach((PromotoriaModel promotoria) async {
+                  if (store.listaPromotoria.length > 0) {
+                    store.listaPromotoria.forEach((PromotoriaModel promotoria) async {
+                      await store.addMessage(
+                        msg: "Nome Promotoria: ${promotoria.nome}; WhatsApp: (11) 9 9999-9999",
+                        owner: 'bot',
+                      );
+                    });
+                  } else {
                     await store.addMessage(
-                      msg: "Nome Promotoria: ${promotoria.nome}; WhatsApp: (11) 9 9999-9999",
+                      msg: "Desculpe. Não tenho essa informação referente a área de atuação escolhida.",
                       owner: 'bot',
                     );
-                  });
+                  }
                   break;
-                case 3:
+                case 3: // Portal
                   String contatoInfo = 'Para obter informações através do portal, acesse: http://www.mpsp.mp.br/portal/page/portal/fale_conosco/faleconosco';
                   await store.addMessage(
                     msg: contatoInfo,
                     owner: 'bot',
                   );
                   break;
-                case 4:
-                  store.listaPromotoria.forEach((PromotoriaModel promotoria) async {
+                case 4: // Atendimento Presencial
+                  if (store.listaPromotoria.length > 0) {
+                    store.listaPromotoria.forEach((PromotoriaModel promotoria) async {
+                      await store.addMessage(
+                        msg: "Nome Promotoria: ${promotoria.nome}; Endereço: ${promotoria.rua}, ${promotoria.numero.toString()} - ${promotoria.bairro}, ${promotoria.cidade}",
+                        owner: 'bot',
+                      );
+                    });
+                  } else {
                     await store.addMessage(
-                      msg: "Nome Promotoria: ${promotoria.nome}; Endereço: ${promotoria.rua}, ${promotoria.numero.toString()} - ${promotoria.bairro}, ${promotoria.cidade}",
+                      msg: "Desculpe. Não tenho essa informação referente a área de atuação escolhida.",
                       owner: 'bot',
                     );
-                  });
+                  }
                   break;
                 default:
                   String contatoInfo = 'Informações do contato ${store.contatos[index].nome}';
